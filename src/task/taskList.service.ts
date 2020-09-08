@@ -14,6 +14,14 @@ export class TaskListService {
         return this.taskListModel.find().exec();
     }
 
+    async findOne(id: string) {
+        const taskList = await this.taskListModel.findOne({ _id: id }).exec();
+        if (!TaskList) {
+            throw new NotFoundException(`TaskList #${id} not found`);
+        }
+        return taskList;
+    }
+
     create(createListDto: CreateListDto) {
         const listTask = new this.taskListModel(createListDto);
         return listTask.save();
@@ -27,6 +35,11 @@ export class TaskListService {
             throw new NotFoundException(`TaskList #${id} not found`);
         }
         return existTaskList;
+    }
+
+    async remove(id: string) {
+        const taskList = await this.findOne(id);
+        return taskList.remove();
     }
 
 }

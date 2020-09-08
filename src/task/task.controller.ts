@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TaskListService } from './taskList.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
@@ -16,6 +16,16 @@ export class TaskListController {
     @Get("")
     findAll() {
         return this.tasklistService.findAll();
+    }
+
+    /**
+     *
+     * @param id
+     * Get Tasklist by id
+     */
+    @Get(":id")
+    findOne(@Param('id') id: string ) {
+        return this.tasklistService.findOne(id);
     }
 
     /**
@@ -44,6 +54,15 @@ export class TaskListController {
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateListDto: UpdateListDto) {
         return this.tasklistService.update(id, updateListDto);
+    }
+
+    /**
+     * @param id string
+     * Delete TaskList
+     */
+    @Delete(":id")
+    remove(@Param("id") id: string) {
+        return this.tasklistService.remove(id);
     }
 
 
