@@ -23,13 +23,17 @@ export class TaskListService {
     }
 
     create(createListDto: CreateListDto) {
-        const listTask = new this.taskListModel(createListDto);
+        const today = new Date();
+        const extendCreateListObject = {...createListDto, createdAt: today, updatedAt: today};
+        const listTask = new this.taskListModel(extendCreateListObject);
         return listTask.save();
     }
 
     async update(id: string, updateTaskDto: any) {
+        const today = new Date();
+        const extendCreateListObject = {...updateTaskDto, updatedAt: today};
         const existTaskList = await this.taskListModel
-                                .findOneAndUpdate({ _id: id }, { $set: updateTaskDto}, { new: true})
+                                .findOneAndUpdate({ _id: id }, { $set: extendCreateListObject}, { new: true})
                                 .exec()
         if (!existTaskList) {
             throw new NotFoundException(`TaskList #${id} not found`);
