@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { TaskListService } from './taskList.service';
 import { CreateListDto } from './dto/create-list.dto';
+import { UpdateListDto } from './dto/update-list.dto';
 
 @Controller('tasklist')
 export class TaskListController {
@@ -25,8 +26,25 @@ export class TaskListController {
      * }
      * create new List
      */
+
     @Post()
     create(@Body() createListDto: CreateListDto) {
         return this.tasklistService.create(createListDto);
     }
+
+    /**
+     * @param id String
+     * @param body
+     * {
+     *     name: "",
+     *     status: "created"
+     * }
+     * update  List
+     */
+    @Patch(":id")
+    update(@Param("id") id: string, @Body() updateListDto: UpdateListDto) {
+        return this.tasklistService.update(id, updateListDto);
+    }
+
+
 }
