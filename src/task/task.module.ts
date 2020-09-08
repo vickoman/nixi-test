@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TaskService } from './task.service';
-import { TaskController } from './task.controller';
+import { TaskListService } from './taskList.service';
+import { TaskListController } from './task.controller';
 import { TaskList, TaskListSchema } from './entities/task-list.entity';
 
 @Module({
@@ -13,7 +13,7 @@ import { TaskList, TaskListSchema } from './entities/task-list.entity';
       }
     ]),
   ],
-  providers: [TaskService],
-  controllers: [TaskController]
+  providers: [TaskListService],
+  controllers: [TaskListController]
 })
 export class TaskModule {}
