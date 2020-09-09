@@ -1,20 +1,22 @@
-import { Entity, Column, ObjectIdColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, ObjectID, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export enum TaskListStatus {
-    CREADA = "creada",
-    ENPROGRESO = "enprogreso",
-    TERMINADA = "terminada",
-    FALLIDA = "fallida"
+export enum TaskStatus {
+    ACTIVA = "activa",
+    TERMINADA = "terminada"
 };
 
-@Entity("list")
-export class TaskList {
+
+@Entity("tasks")
+export class Task {
 
     @ObjectIdColumn()
-    _id: string;
+    _id: ObjectID;
+
+    @ObjectIdColumn()
+    listId: ObjectID;
 
     @Column()
-    name: string;
+    title: string;
 
     @Column()
     status: string;

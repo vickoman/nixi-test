@@ -1,49 +1,47 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { TaskList } from './entities/task-list.entity';
-import { Model } from 'mongoose';
 import { CreateListDto } from './dto/create-list.dto';
+import { MongoRepository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import {ObjectId} from "mongodb";
 
 @Injectable()
 export class TaskListService {
     constructor(
-        @InjectModel(TaskList.name) private readonly taskListModel: Model<TaskList>
-    ) {}
+        @InjectRepository(TaskList) private taskListRepository: MongoRepository<TaskList>
+    ) {
+    }
 
     findAll() {
-        return this.taskListModel.find().exec();
+        return this.taskListRepository.find();
     }
 
     async findOne(id: string) {
-        const taskList = await this.taskListModel.findOne({ _id: id }).exec();
-        if (!TaskList) {
+        const taskList = await this.taskListRepository.findOne(id);
+        if (!taskList) {
             throw new NotFoundException(`TaskList #${id} not found`);
         }
         return taskList;
     }
 
-    create(createListDto: CreateListDto) {
+    async create(createListDto: CreateListDto) {
         const today = new Date();
         const extendCreateListObject = {...createListDto, createdAt: today, updatedAt: today};
-        const listTask = new this.taskListModel(extendCreateListObject);
-        return listTask.save();
+        return this.taskListRepository.save(extendCreateListObject);
     }
 
     async update(id: string, updateTaskDto: any) {
         const today = new Date();
         const extendCreateListObject = {...updateTaskDto, updatedAt: today};
-        const existTaskList = await this.taskListModel
-                                .findOneAndUpdate({ _id: id }, { $set: extendCreateListObject}, { new: true})
-                                .exec()
-        if (!existTaskList) {
+        const existTaskList = await this.taskListRepository.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: extendCreateListObject});
+        if (!existTaskList.value) {
             throw new NotFoundException(`TaskList #${id} not found`);
         }
         return existTaskList;
     }
 
     async remove(id: string) {
-        const taskList = await this.findOne(id);
-        return taskList.remove();
+        return this.taskListRepository.findOneAndDelete({ _id: new ObjectId(id) });
     }
 
 }
