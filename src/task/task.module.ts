@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TaskListService } from './taskList.service';
 import { TaskListController } from './task.controller';
 import { TaskList, TaskListSchema } from './entities/task-list.entity';
+import { Task, TaskSchema } from './entities/task.entity';
 
 @Module({
   imports: [
@@ -10,6 +11,12 @@ import { TaskList, TaskListSchema } from './entities/task-list.entity';
       {
         name: TaskList.name,
         schema: TaskListSchema,
+        collection: "List",
+      },
+      {
+        name: Task.name,
+        schema: TaskSchema,
+        collection: "Task",
       }
     ]),
   ],

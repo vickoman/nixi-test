@@ -6,7 +6,7 @@ import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("mongodb://localhost:27017/nixi"),
+    MongooseModule.forRoot("mongodb://localhost:27017/nixi", { useNewUrlParser: true }),
     TaskModule,
   ],
   controllers: [AppController],

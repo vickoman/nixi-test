@@ -10,11 +10,20 @@ export enum TaskListStatus {
 
 @Schema()
 export class TaskList  extends Document {
-    @Prop()
+    @Prop({ required: true })
     name: string;
 
-    @Prop()
+    @Prop({ required: true })
     status: TaskListStatus;
+
+    @Prop()
+    tasks: string;
+
+    @Prop()
+    createdAt: Date;
+
+    @Prop()
+    updatedAt: Date;
 
 }
 
