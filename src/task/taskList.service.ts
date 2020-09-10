@@ -6,9 +6,11 @@ import { CreateListDto } from './dto/create-list.dto';
 
 @Injectable()
 export class TaskListService {
+
     constructor(
         @InjectModel(TaskList.name) private readonly taskListModel: Model<TaskList>
     ) {}
+
     // Retrieve All Lists
     findAll() {
         return this.taskListModel.aggregate([
@@ -32,6 +34,7 @@ export class TaskListService {
             }
         ]).exec();
     }
+
     // Find one List
     async findOne(id: string) {
         const taskList = await this.taskListModel.findOne({ _id: id }).exec();
@@ -40,6 +43,7 @@ export class TaskListService {
         }
         return taskList;
     }
+
     // Create list
     create(createListDto: CreateListDto) {
         const today = new Date();
@@ -47,6 +51,7 @@ export class TaskListService {
         const listTask = new this.taskListModel(extendCreateListObject);
         return listTask.save();
     }
+
     // Update List
     async update(id: string, updateTaskDto: any) {
         const today = new Date();
@@ -59,6 +64,7 @@ export class TaskListService {
         }
         return existTaskList;
     }
+
     // Delete List
     async remove(id: string) {
         const taskList = await this.findOne(id);
