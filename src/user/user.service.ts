@@ -35,7 +35,7 @@ export class UserService {
         return user.save();
     }
 
-    // Updaet User
+    // Update User
     async update(id: string, updateUserDto: any): Promise<User> {
         const today = new Date();
         const extendObjectUser = {...updateUserDto, updatedAt: today};
@@ -46,6 +46,19 @@ export class UserService {
             throw new NotFoundException(`User #${id} not found`);
         }
         return userUpdated;
+    }
+
+    // Update Profile
+    async updateProfile(id: string, updateProfile: any): Promise<User> {
+        const today = new Date();
+        const extendObjectProfile = { profile: updateProfile, updatedAt: today};
+        const profileUpdated = await this.userModel
+                                    .findOneAndUpdate({ _id: id }, { $set: extendObjectProfile}, {new: true})
+                                    .exec();
+        if (!profileUpdated) {
+            throw new NotFoundException(`User #${id} not found`);
+        }
+        return profileUpdated;
     }
 
     // Delete users

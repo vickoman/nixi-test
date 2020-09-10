@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from 'mongoose';
+import { Profile } from "./profile.entity";
 
 export enum TaskStatusEnum {
     ACTIVA = "activa",
@@ -25,6 +26,9 @@ export class User  extends Document {
 
     @Prop({ required: true })
     isEnable: boolean;
+
+    @Prop()
+    profile: Profile
 
     @Prop()
     createdAt: Date;

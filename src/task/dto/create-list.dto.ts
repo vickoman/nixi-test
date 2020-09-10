@@ -1,8 +1,12 @@
-import { IsString } from "class-validator";
+import { IsString, IsMongoId } from "class-validator";
+import { Types } from 'mongoose';
 
 export class CreateListDto {
+    @IsMongoId()
+    userId: Types.ObjectId;
+
     @IsString()
-    readonly naame: string;
+    readonly name: string;
 
     @IsString()
     readonly status: string;

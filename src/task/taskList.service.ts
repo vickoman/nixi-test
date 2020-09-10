@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { TaskList } from './entities/task-list.entity';
 import { Model } from 'mongoose';
+import { ObjectId } from "mongodb";
 import { CreateListDto } from './dto/create-list.dto';
 
 @Injectable()
@@ -12,27 +13,18 @@ export class TaskListService {
     ) {}
 
     // Retrieve All Lists
-    findAll() {
-        return this.taskListModel.aggregate([
+    async findAll() {
+        const lists = await this.taskListModel.aggregate([
             {
                 $lookup: {
                     from: "Task",
                     localField: "_id",
-                    foreignField: "list",
+                    foreignField: "listId",
                     as: "tasks"
-                }
-            },
-            {
-                $project: {
-                    _id: 1,
-                    name: 1,
-                    status: 1,
-                    createdAt: 1,
-                    updatedAt: 1,
-                    tasks: 1
                 }
             }
         ]).exec();
+        return lists;
     }
 
     // Find one List
@@ -47,6 +39,7 @@ export class TaskListService {
     // Create list
     create(createListDto: CreateListDto) {
         const today = new Date();
+        createListDto.userId = new ObjectId(createListDto.userId);
         const extendCreateListObject = {...createListDto, createdAt: today, updatedAt: today};
         const listTask = new this.taskListModel(extendCreateListObject);
         return listTask.save();

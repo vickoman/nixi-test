@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export enum TaskListStatus {
     CREADA = "creada",
@@ -10,6 +10,9 @@ export enum TaskListStatus {
 
 @Schema()
 export class TaskList  extends Document {
+    @Prop()
+    userId: Types.ObjectId;
+
     @Prop({ required: true })
     name: string;
 

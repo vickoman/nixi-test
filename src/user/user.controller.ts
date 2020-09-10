@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/commo
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Controller('users')
 export class UserController {
@@ -61,6 +62,21 @@ export class UserController {
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
         return this.userService.update(id, updateUserDto);
+    }
+
+    /**
+     * @param id String
+     * @param body
+     {
+     *     address: "",
+     *     age: "",
+     *     photo: "",
+     * }
+     * Update User Profile
+     */
+    @Patch(":id/profile")
+    updateProfile(@Param("id") id: string, @Body() updateProfileDto: UpdateProfileDto) {
+        return this.userService.updateProfile(id, updateProfileDto);
     }
 
     /**

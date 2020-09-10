@@ -1,4 +1,5 @@
-import { IsString, IsBoolean } from "class-validator";
+import { IsString, IsBoolean, IsObject } from "class-validator";
+import { CreateProfileDto } from "./create-profile.dto";
 
 export class CreateUserDto {
 
@@ -16,4 +17,7 @@ export class CreateUserDto {
 
     @IsBoolean()
     isEnable?: boolean;
+
+    @IsObject()
+    profile: CreateProfileDto
 }
