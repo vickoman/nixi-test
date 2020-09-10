@@ -4,10 +4,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TaskModule } from './task/task.module';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot("mongodb://localhost:27017/nixi", { useNewUrlParser: true }),
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGO_URI, { useNewUrlParser: true }),
     TaskModule,
     UserModule,
   ],
