@@ -28,4 +28,6 @@ Que no se hizo por falta de tiempo:
 [x] Dockerizar la app
 [x] Testear los servicios.
 
+URL: https://nixi-api.herokuapp.com/api Swagger
+
 Saludos.
