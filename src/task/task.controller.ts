@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TaskListService } from './taskList.service';
+import { TaskItemService } from './task-item.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
 
-@Controller('tasklist')
+@Controller('lists')
 export class TaskListController {
     constructor(
-        private readonly tasklistService: TaskListService
+        private readonly tasklistService: TaskListService,
+        private readonly taskItemService: TaskItemService,
     ){}
 
     /**
@@ -26,6 +28,15 @@ export class TaskListController {
     @Get(":id")
     findOne(@Param('id') id: string ) {
         return this.tasklistService.findOne(id);
+    }
+
+    /**
+     *
+     * @param listId
+     */
+    @Get(":listId/tasks")
+    findTasksByListId(@Param("listId") listId: string) {
+        return this.taskItemService.findTasksByListId(listId);
     }
 
     /**

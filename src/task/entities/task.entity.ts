@@ -12,6 +12,9 @@ export class Task  extends Document {
     title: string;
 
     @Prop()
+    description: string;
+
+    @Prop()
     listId: Types.ObjectId;
 
     @Prop()
