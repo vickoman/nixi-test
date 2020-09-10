@@ -22,6 +22,7 @@ import { Task, TaskSchema } from './entities/task.entity';
     ]),
   ],
   providers: [TaskListService, TaskItemService],
-  controllers: [TaskListController]
+  controllers: [TaskListController],
+  exports: [TaskListService],
 })
 export class TaskModule {}

@@ -36,6 +36,15 @@ export class TaskListService {
         return taskList;
     }
 
+    // find by userId
+    async findByUserId(userId: string) {
+        const list = await this.taskListModel.find({ userId: new ObjectId(userId)}).exec();
+        if (!list) {
+            throw new NotFoundException(`The user #${userId} dont have lists`);
+        }
+        return list;
+    }
+
     // Create list
     create(createListDto: CreateListDto) {
         const today = new Date();

@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { TaskModule } from '../task/task.module';
 import { User, UserSchema } from './entities/user.entity';
+
 
 @Module({
   imports: [
@@ -13,6 +15,7 @@ import { User, UserSchema } from './entities/user.entity';
         collection: "User"
       }
     ]),
+    TaskModule
   ],
   controllers: [UserController],
   providers: [UserService]

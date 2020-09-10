@@ -3,12 +3,14 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { TaskListService } from '../task/taskList.service';
 
 @Controller('users')
 export class UserController {
 
     constructor(
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly taskListService: TaskListService
     ){}
 
     /**
@@ -28,6 +30,16 @@ export class UserController {
     @Get(":id")
     findOne(@Param('id') id: string ) {
         return this.userService.findOne(id);
+    }
+
+    /**
+     *
+     * @param id
+     * Get list by user
+     */
+    @Get(":id/lists")
+    findLists(@Param('id') id: string ) {
+        return this.taskListService.findByUserId(id);
     }
 
     /**
